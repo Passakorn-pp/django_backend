@@ -1,5 +1,5 @@
 from django.urls import path
-from loginline.api.views import UserLineApiView,GetMormitory,GetMormitoryClick,addDataUser,addDataDormitory,Question_view,Answer_view,get_Question,updateDataDormitory,sethistory,gethistory,setlike,getlike,GetMormitoryLike,GetUserLike
+from loginline.api.views import UserLineApiView,GetMormitory,GetMormitoryClick,addDataUser,addDataDormitory,Question_view,Answer_view,get_Question,updateDataDormitory,sethistory,gethistory,setlike,getlike,GetMormitoryLike,GetUserLike,GetData,updateData
 from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
@@ -18,6 +18,8 @@ urlpatterns = [
     path('getlike/',  getlike , name="getlike"),
     path('GetMormitoryLike/', GetMormitoryLike , name="GetMormitoryLike"),
     path('GetUserLike/',  GetUserLike , name="GetUserLike"),
+    path('GetData/', GetData , name="GetData"),
+    path('updateData/', updateData , name="updateData"),
 
 ]
 

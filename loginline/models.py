@@ -3,7 +3,7 @@ from django.db import models
 class UserLine(models.Model):
     id_user = models.CharField(max_length=100, primary_key=True, )
     name_user = models.CharField(max_length=100)
-
+    
     def __str__(self):
         return f"{ self.id_user} {self.name_user}"
 
@@ -17,7 +17,7 @@ class Dormitory(models.Model):
     name = models.CharField(max_length=50)
     water_bill = models.IntegerField()
     elect_bill = models.IntegerField()
-    img = models.ImageField(upload_to='images/')
+    img = models.CharField(max_length=1000)
     facbook = models.CharField(max_length=50)
     line = models.CharField(max_length=50)
     call = models.CharField(max_length=50)
@@ -37,6 +37,7 @@ class Room(models.Model):
     price = models.IntegerField()
     free = models.IntegerField()
     qrcode = models.CharField(max_length=50)
+    img = models.CharField(max_length=1000,default="https://sv1.picz.in.th/images/2021/03/14/D12sTl.png")
     def __str__(self):
         return f"{ self.dormitory} { self.name}"  
 

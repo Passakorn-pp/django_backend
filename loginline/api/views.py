@@ -114,7 +114,6 @@ def addDataDormitory(request):
 
         id_line = UserLine.objects.get(id_user=mydata["id_user"])
 
-        print(mydata['img'])
         data_dor = Dormitory(id_user=id_line,
                                 name=mydata["name"],
                                 water_bill =mydata["water_bill"],
@@ -161,7 +160,8 @@ def addDataDormitory(request):
             data_room = Room(dormitory=data_dor,
                             name= mydata["room"][i]["nameroom"],
                             price = mydata["room"][i]["price"],
-                            free = mydata["room"][i]["free"]
+                            free = mydata["room"][i]["free"],
+                            img = mydata["room"][i]["img"]
                             )
 
             data_room.save()
@@ -231,14 +231,30 @@ def get_Question(request):
         question = Question.objects.filter(dormitory = dormitory)
         
         data = list(question.values())
+        
 
         count = 0
         for i in question:
+            # user = UserLine.objects.filter(id_user=question.user.id_user)
+            # data[count].update({"user" : user.values()})
+            user = UserLine.objects.filter(id_user=i.user_id)
+            data3 = list(user.values())
+            data[count].update({"user" : data3[0]})
+            
             answer = Answer.objects.filter(question = i)
             data2 = list(answer.values())
             data[count].update({"answer" : data2})
-            count += 1
             
+
+            count2 = 0
+            for j in answer:
+                user = UserLine.objects.filter(id_user=j.user_id)
+                data4 = list(user.values())
+                # print(data[count]['answer'])
+                data[count]['answer'][count2].update({"user" : data4[0]})
+                count2 += 1
+            count += 1
+        
         return JsonResponse({"Question" : data,}, safe=False)
 
 # def getRecommend():
@@ -247,6 +263,35 @@ def get_Question(request):
 #         data = list(recommend.values())
 #         return JsonResponse({"Question" : data,}, safe=False)
 
+
+@csrf_exempt
+def GetData(request):
+    if request.method == 'POST':
+        mydata = json.loads(request.body)
+
+        id_line = UserLine.objects.get(id_user=mydata["id_user"])
+        data_user = DataUser.objects.filter(id_user = id_line.id_user)
+
+        data = list(data_user.values())
+        
+    return JsonResponse({"Data" : data}, safe=False)
+
+@csrf_exempt
+def updateData(request):
+    if request.method == 'POST':
+        mydata = json.loads(request.body)
+
+        id_line = UserLine.objects.get(id_user=mydata["id_user"])
+        id_data = DataUser.objects.filter(id_user = id_line.id_user)
+        data = list(id_data.values())
+        print(data)
+        data_user = DataUser(id = data[0]['id'],
+                            id_user = id_line,
+                            faculty = mydata["faculty"],
+                            gender = mydata["gender"])
+        data_user.save()
+        
+    return HttpResponse("success")
 
 @csrf_exempt
 def updateDataDormitory(request):
