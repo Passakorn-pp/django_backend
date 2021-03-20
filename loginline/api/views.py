@@ -1,4 +1,4 @@
-from loginline.models import UserLine,Dormitory,Room,filterDo,filterDormitory,DataUser,Question,Answer,History,HistoryNouser,Like
+from loginline.models import UserLine,Dormitory,Room,filterDo,filterDormitory,DataUser,Question,Answer,History,HistoryNouser,Like,Imgall
 from rest_framework import generics,mixins
 from loginline.api.serializers import UserLineSerializers
 import json 
@@ -74,6 +74,8 @@ def GetMormitoryClick(request):
         mydata = json.loads(request.body)
         dormitory = Dormitory.objects.filter(name = mydata["name"])
         data = list(dormitory.values())
+        imgall = Imgall.objects.filter(dormitory_id = data[0]['id'])
+        data4 = list(imgall.values())
         filterDor = filterDormitory.objects.filter(dormitory_id = data[0]['id'])
         room = Room.objects.filter(dormitory_id = data[0]['id'])
         data5 = list(filterDor.values())
@@ -87,7 +89,7 @@ def GetMormitoryClick(request):
 
         
 
-        return JsonResponse({"dormitory" : data,}, safe=False)
+        return JsonResponse({"dormitory" : data, "imgall" : data4}, safe=False)
 
 @csrf_exempt
 def addDataUser(request):
@@ -129,6 +131,11 @@ def addDataDormitory(request):
                                 distance = 0
                                 )
         data_dor.save()
+        
+        for i in range(len(mydata["imgall"])):
+            imgall = Imgall(dormitory=data_dor,
+                            img = mydata["imgall"][i]['path'])
+            imgall.save()
 
         d_parking_lot = False
         d_elevators = False

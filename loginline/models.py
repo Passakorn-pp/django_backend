@@ -29,6 +29,11 @@ class Dormitory(models.Model):
 
     def __str__(self):
         return self.name   
+class Imgall(models.Model):
+    dormitory = models.ForeignKey(Dormitory, on_delete=models.CASCADE)
+    img = models.CharField(max_length=5000)
+    def __str__(self):
+        return self.dormitory.name
 
 
 class Room(models.Model):
