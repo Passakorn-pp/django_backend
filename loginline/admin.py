@@ -1,5 +1,5 @@
 from django.contrib import admin
-from loginline.models import UserLine,Dormitory,Room,filterDo,filterDormitory,DataUser,Question,Answer,History,HistoryNouser,Like,Imgall
+from loginline.models import UserLine,Dormitory,Room,filterDo,filterDormitory,DataUser,Question,Answer,History,HistoryNouser,Like,Imgall,Rating
 
 class FilterDoAdmin(admin.ModelAdmin):
     list_display = ('id', 'room', "wifi")
@@ -16,3 +16,5 @@ admin.site.register(History)
 admin.site.register(HistoryNouser)
 admin.site.register(Like)
 admin.site.register(Imgall)
+admin.site.register(Rating)
+

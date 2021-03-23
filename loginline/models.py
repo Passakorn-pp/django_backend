@@ -3,13 +3,14 @@ from django.db import models
 class UserLine(models.Model):
     id_user = models.CharField(max_length=100, primary_key=True, )
     name_user = models.CharField(max_length=100)
-    
+    id_auto = models.CharField(max_length=10000,default='10001')
     def __str__(self):
         return f"{ self.id_user} {self.name_user}"
 
 class DataUser(models.Model):
     id_user = models.ForeignKey(UserLine, on_delete=models.CASCADE)
     faculty = models.CharField(max_length=100)
+    img = models.CharField(max_length=1000)
     gender = models.CharField(max_length=50)
     
 class Dormitory(models.Model):
@@ -93,3 +94,23 @@ class Like(models.Model):
     dormitory = models.ForeignKey(Dormitory, on_delete=models.CASCADE)
     def __str__(self):
         return f"{self.user, self.dormitory}"   
+
+class Rating(models.Model):
+    user = models.ForeignKey(UserLine, on_delete=models.CASCADE)
+    dormitory = models.ForeignKey(Dormitory, on_delete=models.CASCADE)
+    star = models.FloatField()
+
+class Behavior(models.Model):
+    user = models.ForeignKey(UserLine, on_delete=models.CASCADE)
+    game = models.BooleanField(default=False)
+    book = models.BooleanField(default=False)
+    song = models.BooleanField(default=False)
+    pray = models.BooleanField(default=False)
+    exercise = models.BooleanField(default=False)
+    cocial = models.BooleanField(default=False)
+    art = models.BooleanField(default=False)
+    food = models.BooleanField(default=False)
+    clean = models.BooleanField(default=False)
+    movie = models.BooleanField(default=False)
+    homework = models.BooleanField(default=False)
+    lie_about = models.BooleanField(default=False)

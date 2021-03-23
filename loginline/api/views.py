@@ -1,4 +1,4 @@
-from loginline.models import UserLine,Dormitory,Room,filterDo,filterDormitory,DataUser,Question,Answer,History,HistoryNouser,Like,Imgall
+from loginline.models import UserLine,Dormitory,Room,filterDo,filterDormitory,DataUser,Question,Answer,History,HistoryNouser,Like,Imgall,Rating
 from rest_framework import generics,mixins
 from loginline.api.serializers import UserLineSerializers
 import json 
@@ -95,8 +95,9 @@ def GetMormitoryClick(request):
 def addDataUser(request):
     if request.method == 'POST':
         mydata = json.loads(request.body)
-
-        u_line = UserLine(id_user=mydata["id_user"], name_user=mydata["name_user"])
+        index_user = UserLine.objects.all()
+        index = len(index_user)+10000
+        u_line = UserLine(id_user=mydata["id_user"], name_user=mydata["name_user"],id_auto = index)
         u_line.save()
 
         id_line = UserLine.objects.get(id_user=mydata["id_user"])
@@ -494,3 +495,34 @@ def GetMormitoryLike(request):
         like = Like.objects.filter(dormitory=dormitory)
         data = list(like.values())
     return JsonResponse(data,  safe=False)
+
+@csrf_exempt
+def SetRating(request):
+    if request.method == 'POST':
+        mydata = json.loads(request.body)
+        dormitory = Dormitory.objects.get(name=mydata["name"])
+        rating = ""
+        user = UserLine.objects.get(id_user=mydata["user"])
+        # print(Rating.objects.filter(user=user,dormitory=dormitory))
+        if(Rating.objects.filter(user=user,dormitory=dormitory)):
+            r = Rating.objects.get(user=user,dormitory=dormitory)
+
+            rating = Rating(id = r.id,user=r.user, dormitory = r.dormitory, star = mydata["rating"])
+        else:
+            rating = Rating(user=user, dormitory = dormitory, star = mydata["rating"])
+            
+        rating.save()
+    return HttpResponse("success")
+
+@csrf_exempt
+def GetRating(request):
+    if request.method == 'POST':
+        mydata = json.loads(request.body)
+        dormitory = Dormitory.objects.get(name=mydata["name"])
+        user = UserLine.objects.get(id_user=mydata["user"])
+        if(Rating.objects.filter(user=user,dormitory=dormitory)):
+            rating = Rating.objects.get(user=user,dormitory=dormitory)
+            data = rating.star  
+        else:
+            data = 0
+        return JsonResponse(data, safe=False)
