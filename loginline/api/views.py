@@ -102,8 +102,11 @@ def addDataUser(request):
 
         id_line = UserLine.objects.get(id_user=mydata["id_user"])
 
-        data_u_line = DataUser(id_user=id_line,faculty=mydata["faculty"],gender =mydata["gender"])
+        data_u_line = DataUser(id_user=id_line,faculty=mydata["faculty"],gender =mydata["gender"], year = mydata["year"], behavior = mydata["behavior"])
         data_u_line.save()
+
+        
+
         
         return HttpResponse("success")
 

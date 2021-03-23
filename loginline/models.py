@@ -12,7 +12,9 @@ class DataUser(models.Model):
     faculty = models.CharField(max_length=100)
     img = models.CharField(max_length=1000)
     gender = models.CharField(max_length=50)
-    
+    year = models.IntegerField(default=1)
+    behavior = models.CharField(max_length=1000)
+
 class Dormitory(models.Model):
     id_user = models.ForeignKey(UserLine, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
