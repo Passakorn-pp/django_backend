@@ -85,6 +85,8 @@ class Answer(models.Model):
 class History(models.Model):
     user = models.ForeignKey(UserLine, on_delete=models.CASCADE)
     dormitory = models.ForeignKey(Dormitory, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.user,self.dormitory}"  
 
 class HistoryNouser(models.Model):
     dormitory = models.ForeignKey(Dormitory, on_delete=models.CASCADE) 

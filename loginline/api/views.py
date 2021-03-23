@@ -281,11 +281,13 @@ def GetData(request):
         mydata = json.loads(request.body)
 
         id_line = UserLine.objects.get(id_user=mydata["id_user"])
-        data_user = DataUser.objects.filter(id_user = id_line.id_user)
+        data_user = DataUser.objects.filter(id_user = id_line)
 
         data = list(data_user.values())
+        data[0].update({"id" : id_line.id_auto})
+
         
-    return JsonResponse({"Data" : data}, safe=False)
+    return JsonResponse(data, safe=False)
 
 @csrf_exempt
 def updateData(request):
@@ -406,7 +408,7 @@ def sethistory(request):
         dormitory = Dormitory.objects.get(name = mydata["name"])
         if(UserLine.objects.filter(id_user = mydata["user_id"])):
             user = UserLine.objects.get(id_user = mydata["user_id"])
-            if(History.objects.filter(user=user)):
+            if(History.objects.filter(user=user,dormitory=dormitory)):
                 user = UserLine.objects.get(id_user = mydata["user_id"])
             else:
                 history = History(user=user,dormitory=dormitory)    
@@ -529,3 +531,30 @@ def GetRating(request):
         else:
             data = 0
         return JsonResponse(data, safe=False)
+
+@csrf_exempt
+def GetReccomend(request):
+    if request.method == 'POST':
+        mydata = json.loads(request.body)
+        data = list()
+        for i in mydata['dormitory']:
+            if(Dormitory.objects.filter(name=i)):
+                dormitory = Dormitory.objects.filter(name=i)
+                dormitory2 = Dormitory.objects.get(name=i)
+                data2 = list(dormitory.values())
+
+                filterDor = filterDormitory.objects.filter(dormitory_id = dormitory2.id)
+                data4 = list(filterDor.values())
+                data2[0].update({"filterDor" : data4})
+
+                room = Room.objects.filter(dormitory_id = dormitory2.id)
+                data3 = list(room.values())
+                data2[0].update({"room" : data3})
+                
+                for j in range(len(data2[0]['room'])):
+                    filterRoom = filterDo.objects.filter(room_id = data3[j]['id'])
+                    data5 = list(filterRoom.values())
+                    data2[0]['room'][j].update({"filter" : data5})
+
+                data.append(data2)
+    return JsonResponse({"dormitory" :data}, safe=False)

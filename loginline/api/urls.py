@@ -1,5 +1,5 @@
 from django.urls import path
-from loginline.api.views import UserLineApiView,GetMormitory,GetMormitoryClick,addDataUser,addDataDormitory,Question_view,Answer_view,get_Question,updateDataDormitory,sethistory,gethistory,setlike,getlike,GetMormitoryLike,GetUserLike,GetData,updateData,SetRating,GetRating
+from loginline.api.views import UserLineApiView,GetMormitory,GetMormitoryClick,addDataUser,addDataDormitory,Question_view,Answer_view,get_Question,updateDataDormitory,sethistory,gethistory,setlike,getlike,GetMormitoryLike,GetUserLike,GetData,updateData,SetRating,GetRating,GetReccomend
 from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
@@ -22,6 +22,7 @@ urlpatterns = [
     path('updateData/', updateData , name="updateData"),
     path('GetRating/', GetRating, name="GetRating"),
     path('SetRating/', SetRating , name="SetRating"),
+    path('GetReccomend/', GetReccomend , name="GetReccomend"),
 
 ]
 
