@@ -517,6 +517,25 @@ def SetRating(request):
             rating = Rating(user=user, dormitory = dormitory, star = mydata["rating"])
             
         rating.save()
+
+
+        data_dor = Dormitory(id = dormitory.id,
+                                id_user=dormitory.id_user,
+                                name=dormitory.name,
+                                water_bill =dormitory.water_bill,
+                                elect_bill =dormitory.elect_bill,
+                                facbook = dormitory.facbook,
+                                line =dormitory.line,
+                                call =dormitory.call,
+                                address =dormitory.address,
+                                tags =dormitory.tags,
+                                gender =dormitory.gender,
+                                star = mydata["rating"],
+                                distance = dormitory.distance,
+                                img = dormitory.img
+                                )
+        data_dor.save()
+        
     return HttpResponse("success")
 
 @csrf_exempt
