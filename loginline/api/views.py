@@ -530,7 +530,7 @@ def SetRating(request):
                                 address =dormitory.address,
                                 tags =dormitory.tags,
                                 gender =dormitory.gender,
-                                star = mydata["rating"],
+                                star = mydata["ratingAll"],
                                 distance = dormitory.distance,
                                 img = dormitory.img
                                 )
