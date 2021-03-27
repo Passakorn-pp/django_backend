@@ -26,7 +26,7 @@ class Dormitory(models.Model):
     call = models.CharField(max_length=50)
     address = models.CharField(max_length=200)
     star = models.IntegerField()
-    distance = models.IntegerField()
+    distance = models.FloatField()
     tags = models.CharField(max_length=50)
     gender = models.CharField(max_length=50)
 
@@ -44,7 +44,7 @@ class Room(models.Model):
     name = models.CharField(max_length=50)
     price = models.IntegerField()
     free = models.IntegerField()
-    qrcode = models.CharField(max_length=50)
+    qrcode = models.CharField(max_length=100)
     img = models.CharField(max_length=1000,default="https://sv1.picz.in.th/images/2021/03/14/D12sTl.png")
     def __str__(self):
         return f"{ self.dormitory} { self.name}"  
@@ -66,7 +66,7 @@ class filterDormitory(models.Model):
     parking_lot = models.BooleanField(default=False)
     security_camera = models.BooleanField(default=False)
     def __str__(self):
-        return f"{ self.id}"  
+        return f"{ self.dormitory}"  
     
 class Question(models.Model):
     created_at = models.DateField(auto_now_add=True)
