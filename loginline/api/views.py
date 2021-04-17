@@ -173,6 +173,7 @@ def addDataDormitory(request):
                             price = mydata["room"][i]["price"],
                             free = mydata["room"][i]["free"],
                             img = mydata["room"][i]["img"]
+
                             )
 
             data_room.save()
@@ -300,6 +301,9 @@ def updateData(request):
         print(data)
         data_user = DataUser(id = data[0]['id'],
                             id_user = id_line,
+                            year = data[0]['year'],
+                            img = data[0]['img'],
+                            behavior  = data[0]['behavior'],
                             faculty = mydata["faculty"],
                             gender = mydata["gender"])
         data_user.save()
@@ -326,7 +330,8 @@ def updateDataDormitory(request):
                                 gender =mydata["typedormitory"],
                                 star = id_dor.star,
                                 distance = id_dor.distance,
-                                img = id_dor.img
+                                img = id_dor.img,
+                                preper = id_dor.preper
                                 )
         data_dor.save()
 
@@ -356,15 +361,18 @@ def updateDataDormitory(request):
                                 )
         data_filterdor.save()
 
-        
+        id_room = Room.objects.filter(dormitory=data_dor)
+        id_room.delete()
 
         for i in range(len(mydata["room"])):
-            id_room = Room.objects.filter(dormitory=data_dor)
-            data_room = Room(id = id_room[i].id,
+            
+            data_room = Room(
                             dormitory=data_dor,
                             name= mydata["room"][i]["name"],
                             price = mydata["room"][i]["price"],
-                            free = mydata["room"][i]["free"]
+                            free = mydata["room"][i]["free"],
+                            qrcode = "https://sv1.picz.in.th/images/2021/03/14/D12sTl.png",
+                            img = mydata["room"][i]['img']
                             )
 
             data_room.save()
@@ -387,8 +395,8 @@ def updateDataDormitory(request):
                 d_tv = True
             if(mydata["room"][i]["filter"][0]["wifi"] == True):
                 d_wifi = True
-            id_filterroom = filterDo.objects.filter(room=data_room)
-            data_filterroom = filterDo(id=id_filterroom[0].id,
+                
+            data_filterroom = filterDo(
                                 room=data_room,
                                 air=d_air,
                                 fan = d_fan,
@@ -532,7 +540,8 @@ def SetRating(request):
                                 gender =dormitory.gender,
                                 star = mydata["ratingAll"],
                                 distance = dormitory.distance,
-                                img = dormitory.img
+                                img = dormitory.img,
+                                preper = mydata["preper"]
                                 )
         data_dor.save()
         

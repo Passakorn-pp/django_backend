@@ -29,7 +29,7 @@ class Dormitory(models.Model):
     distance = models.FloatField()
     tags = models.CharField(max_length=50)
     gender = models.CharField(max_length=50)
-
+    preper = models.IntegerField()
     def __str__(self):
         return self.name   
 class Imgall(models.Model):
