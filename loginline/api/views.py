@@ -561,12 +561,27 @@ def GetRating(request):
         return JsonResponse(data, safe=False)
 
 @csrf_exempt
+def GetRating_user(request):
+    if request.method == 'POST':
+        mydata = json.loads(request.body)
+        user = UserLine.objects.get(id_user=mydata["user"])
+        if(Rating.objects.filter(user=user)):
+            data = "true"
+        else:
+            data = "false"
+        return JsonResponse(data, safe=False)
+
+@csrf_exempt
 def GetReccomend(request):
     if request.method == 'POST':
         mydata = json.loads(request.body)
         data = list()
+        count = 0
         for i in mydata['dormitory']:
+            if(count == 5):
+                break
             if(Dormitory.objects.filter(name=i)):
+                count += 1
                 dormitory = Dormitory.objects.filter(name=i)
                 dormitory2 = Dormitory.objects.get(name=i)
                 data2 = list(dormitory.values())

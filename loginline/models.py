@@ -16,6 +16,7 @@ class DataUser(models.Model):
     behavior = models.CharField(max_length=1000)
 
 class Dormitory(models.Model):
+    id_dor = models.CharField(max_length=50, blank = True)
     id_user = models.ForeignKey(UserLine, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     water_bill = models.IntegerField()
